@@ -1,0 +1,22 @@
+node {
+  stage('setup env') {
+  jenkins_dir='/opt/jenkins/'
+  }
+  
+  stage('checkout') {
+    dir(jenkins_dir) {
+    checkout scm
+   }
+  }
+
+  stage('prep') {
+    dir(jenkins_dir) {
+    sh 'terraform init'
+    sh 'terraform get'
+    }
+  }
+  
+  stage('plan') {
+    sh 'terraform plan --out plan'
+  }
+}
